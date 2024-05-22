@@ -23,6 +23,6 @@ sleep(10)
 
 # verification
 actual_text = driver.find_element(By.XPATH, "//div[@data-test='resultsHeading']").text
-assert 'Easter eggs' in actual_text,f'Error! Text Easter eggs not in{actual_text}'
+assert 'Easter eggs' in actual_text, f'Error! Text Easter eggs not in{actual_text}'
 print('Test case passed')
 driver.quit()
