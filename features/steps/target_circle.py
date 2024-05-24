@@ -1,7 +1,6 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as ec
 from behave import given, when, then
-from time import sleep
-
 
 CELL_ELEMENTS = (By.XPATH, '//a[@data-test="@web/slingshot-components/CellsComponent/Link"]')
 
@@ -13,8 +12,8 @@ def open_target_circle_page(context):
 
 @when('Get all benefit cells within circle')
 def get_all_benefit_cells(context):
-    context.driver.find_elements(*CELL_ELEMENTS)
-    sleep(2)
+    context.wait.until(ec.presence_of_element_located(CELL_ELEMENTS))
+    context.total_cells_found = context.driver.find_elements(*CELL_ELEMENTS)
 
 
 # @then('Verify 10 Benefit cells are present')
@@ -26,6 +25,5 @@ def get_all_benefit_cells(context):
 
 @then('Verify {expected_amount} Benefit cells are present')
 def total_10_benefit_cells(context, expected_amount):
-    total_cells = context.driver.find_elements(*CELL_ELEMENTS)
-    count = len(total_cells)
-    assert count == int(expected_amount), f"Expected 10 benefit, got {len(total_cells)}"
+    count = len(context.total_cells_found)
+    assert count == int(expected_amount), f"Expected 10 benefit, got {count}"

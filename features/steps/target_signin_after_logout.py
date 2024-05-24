@@ -1,30 +1,28 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as ec
 from behave import given, when, then
-from time import sleep
 
-
-# @given('open Target main page')
-# def open_target_page(context):
-#     context.driver.get("https://www.target.com/")
+SIGN_IN_BUTTON = (By.XPATH, "//a[@aria-label='Account, sign in']")
+SIGN_IN_AGAIN_LINK = (By.XPATH, "//a[@data-test='accountNav-signIn']")
+SIGN_IN_TEXT = (By.XPATH, "//span[contains(text(), 'Sign into your Target account')]")
 
 
 @when('click sign in')
 def click_sign_in(context):
-    signin_button = context.driver.find_element(By.XPATH, "//a[@aria-label='Account, sign in']")
-    signin_button.click()
-    sleep(3)
+    context.wait.until(ec.visibility_of_element_located(SIGN_IN_BUTTON))
+    context.driver.find_element(*SIGN_IN_BUTTON).click()
 
 
 @when('click Sign In after it opens right side navigation menu')
 def click_sign_in_again(context):
-    signin_button = context.driver.find_element(By.XPATH, "//a[@data-test='accountNav-signIn']")
-    signin_button.click()
-    sleep(5)
+    context.wait.until(ec.presence_of_element_located(SIGN_IN_AGAIN_LINK))
+    context.driver.find_element(*SIGN_IN_AGAIN_LINK).click()
 
 
 @then('sign In form opens')
 def verify_sign_in_form(context):
-    signin_form_heading_txt = context.driver.find_element(By.XPATH, "//span[contains(text(), 'Sign into your Target account')]")
+    context.wait.until(ec.visibility_of_element_located(SIGN_IN_TEXT))
+    signin_form_heading_txt = context.driver.find_element(*SIGN_IN_TEXT)
     assert signin_form_heading_txt is not None
 
 
