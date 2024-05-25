@@ -27,6 +27,9 @@ class Page(object):
         actual_text = self.find_element(*locator).text
         assert expected_text in actual_text, f'Expected {expected_text} not in {actual_text}'
 
+    def verify_partial_url(self, expected_url):
+        self.wait.until(ec.url_contains(expected_url), message=f'Url does not contain {expected_url}')
+
     def get_current_window(self):
         current_window = self.driver.current_window_handle
         print('Current:', current_window)

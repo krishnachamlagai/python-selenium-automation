@@ -17,7 +17,7 @@ def click_cart_icon(context):
 
 @then('Your cart is empty message is shown')
 def verify_cart_is_empty(context):
-    context.wait.until(ec.presence_of_element_located(CART_EMPTY_HEADING))
-    cart_empty_text_h1 = context.driver.find_element(CART_EMPTY_HEADING)
+    context.wait.until(ec.visibility_of_element_located(CART_EMPTY_HEADING))
+    cart_empty_text_h1 = context.driver.find_element(*CART_EMPTY_HEADING)
     assert cart_empty_text_h1 is not None
 
